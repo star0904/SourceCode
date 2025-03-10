@@ -1,0 +1,14 @@
+
+
+瑞数5：
+    两次debugger     响应状态码 412
+    cookie成对出现  第一个数字是5
+    第一次请求响应html文件
+    更换外链ts文件  自执行方法  content
+
+
+补环境：
+    新增 window.ActiveXObject = function (){}
+
+    form! form! form! 不要打错了
+
