@@ -1,7 +1,7 @@
-const CrytoJs = require('crypto-js');
+const CryptoJs = require('crypto-js');
 
 function hmacSha512(val, key){
-    return CrytoJs.HmacSHA512(val, key).toString()
+    return CryptoJs.HmacSHA512(val, key).toString()
 }
 
 a = {
