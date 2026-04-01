@@ -1,0 +1,115 @@
+import requests
+import execjs
+
+js = execjs.compile(open('抖音.js',encoding='utf-8').read())
+
+cookies = {
+    'enter_pc_once': '1',
+    'UIFID_TEMP': '1b474bc7e0db9591e645dd8feb8c65aae4845018effd0c2743039a380ee64740f769146ec9de43ae792bdb053966bf0dfac647de5e82ea5091d24005436061846cc602dd1dff8d622fb09942784c8b71',
+    's_v_web_id': 'verify_mdzsmita_z5a6Res1_JrZV_473U_8fCC_G0mDXayFPZKG',
+    'hevc_supported': 'true',
+    'dy_swidth': '1707',
+    'dy_sheight': '1067',
+    'fpk1': 'U2FsdGVkX19saHHxyz938miQGcLM9IzY7dc1xYP5LnzEEibIWQDTybbP18kemb875h6FqLjrcSFDkpC8AWkaXQ==',
+    'fpk2': '7ddeda88d0c599cc494da0dece6554d5',
+    'UIFID': '1b474bc7e0db9591e645dd8feb8c65aae4845018effd0c2743039a380ee64740f769146ec9de43ae792bdb053966bf0d50e95cfc4071a04d7c01981422867ac6ed39bfd4ed4ef882b3120e03ab7e618d92f11ac41efac397e9178a3d17a5a6faf496a86a05c8d6c43bbc6957c4ac393d315c4a6f6f450bccd303f315cc38ad8192cf74809e540a570fec1d7a9fd8a5ad7ec1e6e3ef61d465997cd47636581de7',
+    'passport_csrf_token': '073c48bce58d68ec24b068ce6219e570',
+    'passport_csrf_token_default': '073c48bce58d68ec24b068ce6219e570',
+    'bd_ticket_guard_client_web_domain': '2',
+    '__security_mc_1_s_sdk_crypt_sdk': '8a0e155f-4ef2-851a',
+    '__security_mc_1_s_sdk_cert_key': 'a1d7f847-4c70-aea9',
+    '__security_mc_1_s_sdk_sign_data_key_web_protect': 'e71b759c-4f8f-b1d4',
+    'odin_tt': '0e1897e74427523ae6e1ec76601ea378fa0a0ed251e5b8c67557206d260202ad630221d53c08d441458fc12211b95cb67fd2d19ab1d90a86617c50d39052d0dfb8c7dc5ed3e996f5071cfd876bd772c9',
+    'is_dash_user': '1',
+    'volume_info': '%7B%22isUserMute%22%3Afalse%2C%22isMute%22%3Afalse%2C%22volume%22%3A0.5%7D',
+    '__ac_nonce': '068940df500596e011a58',
+    '__ac_signature': '_02B4Z6wo00f01MjyiOgAAIDBF6l7p-JbLYzI0oxAAFqu9f',
+    'IsDouyinActive': 'true',
+    'stream_recommend_feed_params': '%22%7B%5C%22cookie_enabled%5C%22%3Atrue%2C%5C%22screen_width%5C%22%3A1707%2C%5C%22screen_height%5C%22%3A1067%2C%5C%22browser_online%5C%22%3Atrue%2C%5C%22cpu_core_num%5C%22%3A8%2C%5C%22device_memory%5C%22%3A8%2C%5C%22downlink%5C%22%3A10%2C%5C%22effective_type%5C%22%3A%5C%224g%5C%22%2C%5C%22round_trip_time%5C%22%3A250%7D%22',
+    'strategyABtestKey': '%221754533366.822%22',
+    'home_can_add_dy_2_desktop': '%221%22',
+    'ttwid': '1%7CHne34St7rUVpmLJZ3qLSQ3lkbuPyuGgQBbwZ_pVt_fo%7C1754533367%7Cd84f946b9a217418cd2034832a256d86a2a7ebef660cf56799f3b3f79102cfe6',
+    'bd_ticket_guard_client_data': 'eyJiZC10aWNrZXQtZ3VhcmQtdmVyc2lvbiI6MiwiYmQtdGlja2V0LWd1YXJkLWl0ZXJhdGlvbi12ZXJzaW9uIjoxLCJiZC10aWNrZXQtZ3VhcmQtcmVlLXB1YmxpYy1rZXkiOiJCRVhLTnpPbm1Pa2lKbEppTXpuUDdlZDNsY2VCZldURXVQR244MnF1bGlmeWVlbytEempxbDB2T1BNL3ROQTNiaUJFMzVBNHNuWURyczVqbXh1S3c3YzQ9IiwiYmQtdGlja2V0LWd1YXJkLXdlYi12ZXJzaW9uIjoyfQ%3D%3D',
+    'gulu_source_res': 'eyJwX2luIjoiYTlmMjU3NzAxMWQ2OTIyYjc5NWQ5Zjk3NjY1OWVkOTNkMGQ2NjBjMWZhMmNkYzdjMGI4NmI5YTU2YjlhYmU1OCJ9',
+    'sdk_source_info': '7e276470716a68645a606960273f276364697660272927676c715a6d6069756077273f276364697660272927666d776a68605a607d71606b766c6a6b5a7666776c7571273f275e58272927666a6b766a69605a696c6061273f27636469766027292762696a6764695a7364776c6467696076273f275e582729277672715a646971273f2763646976602729277f6b5a666475273f2763646976602729276d6a6e5a6b6a716c273f2763646976602729276c6b6f5a7f6367273f27636469766027292771273f2730313d3d333636363031303234272927676c715a75776a716a666a69273f2763646976602778',
+    'bit_env': 'WLDyut_fmz7tVdPMbL9V0YXR5OmL9ewQsL7WoNhWJe1tLBorLky0qM0tQsEGlMVyN8pW9ROodA-eIfyLAjgvW8tgA4FxGoCl3ZKbksi17NWDTo6AvbsXhMH2bspP3wRKq6HSC9sX6vzHN3RRVnxMmjfiCNJ7kErcjBZMEPUtysiZ3O2_h_NhQWcJvbMg_H9jZ3uGxJMwp_7kV6OfSV2yZygA22W_TbQglJNdY5O7gkk_wsBIqi_0pJ3yeMMLy7Ls3aHNeGuiAY382XXF3ulVpHcSbhcAog1h6lcXOvzSZM0n3uyl5pSUdGsAX0kPqdwC7iZDFli8NLaSYRETHCp9g2nemYNMSCKT0HUd787Nbp0hledzYTtK2ovAwvnQkXcw0ut-CWB1vKKjKv1cvZP0_bNGNLE6JiF5ogdsrARkGSYO6FZT65y9bqDAntA5Xao-ys1t35yQDGtheGPvlXokO91WlyzQNFuOW9T3DJ50gvi8E5goYBdrRATzRtycdeVw',
+    'passport_auth_mix_state': 'xvkkmicc1nbyghf1ky2qb7mws1to2hhpsxa2gr626jbcvxnr',
+    'biz_trace_id': '2d4c4e2a',
+    # 'download_guide': '%222%2F20250807%2F0%22',
+}
+headers = {
+    'accept': 'application/json, text/plain, */*',
+    'accept-language': 'zh-CN,zh;q=0.9',
+    'bd-ticket-guard-iteration-version': '1',
+    'bd-ticket-guard-ree-public-key': 'BEXKNzOnmOkiJlJiMznP7ed3lceBfWTEuPGn82qulifyeeo+Dzjql0vOPM/tNA3biBE35A4snYDrs5jmxuKw7c4=',
+    'bd-ticket-guard-version': '2',
+    'bd-ticket-guard-web-sign-type': '0',
+    'bd-ticket-guard-web-version': '2',
+    'cache-control': 'no-cache',
+    'pragma': 'no-cache',
+    'priority': 'u=1, i',
+    'referer': 'https://www.douyin.com/user/MS4wLjABAAAAompXkPoYOGsA152dqYoytKycjIZ_aCCxHwGmLX5IsDM?modal_id=7481262407885524261',
+    'sec-ch-ua': '"Not)A;Brand";v="8", "Chromium";v="138", "Google Chrome";v="138"',
+    'sec-ch-ua-mobile': '?0',
+    'sec-ch-ua-platform': '"Windows"',
+    'sec-fetch-dest': 'empty',
+    'sec-fetch-mode': 'cors',
+    'sec-fetch-site': 'same-origin',
+    'uifid': '1b474bc7e0db9591e645dd8feb8c65aae4845018effd0c2743039a380ee64740f769146ec9de43ae792bdb053966bf0d50e95cfc4071a04d7c01981422867ac6ed39bfd4ed4ef882b3120e03ab7e618d92f11ac41efac397e9178a3d17a5a6faf496a86a05c8d6c43bbc6957c4ac393d315c4a6f6f450bccd303f315cc38ad8192cf74809e540a570fec1d7a9fd8a5ad7ec1e6e3ef61d465997cd47636581de7',
+    'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/138.0.0.0 Safari/537.36',
+}
+
+url = 'https://www.douyin.com/aweme/v1/web/comment/list/?device_platform=webapp&aid=6383&channel=channel_pc_web&aweme_id=7492815404541234467&cursor=0&count=100&item_type=0&insert_ids=&whale_cut_token=&cut_version=1&rcFT=&update_version_code=170400&pc_client_type=1&pc_libra_divert=Windows&support_h265=1&support_dash=1&cpu_core_num=8&version_code=170400&version_name=17.4.0&cookie_enabled=true&screen_width=1707&screen_height=1067&browser_language=zh-CN&browser_platform=Win32&browser_name=Chrome&browser_version=138.0.0.0&browser_online=true&engine_name=Blink&engine_version=138.0.0.0&os_name=Windows&os_version=10&device_memory=8&platform=PC&downlink=10&effective_type=4g&round_trip_time=250&webid=7535409131668489791&uifid=1b474bc7e0db9591e645dd8feb8c65aae4845018effd0c2743039a380ee64740f769146ec9de43ae792bdb053966bf0d50e95cfc4071a04d7c01981422867ac6ed39bfd4ed4ef882b3120e03ab7e618d92f11ac41efac397e9178a3d17a5a6faf496a86a05c8d6c43bbc6957c4ac393d315c4a6f6f450bccd303f315cc38ad8192cf74809e540a570fec1d7a9fd8a5ad7ec1e6e3ef61d465997cd47636581de7'
+ab = js.call('get_ab',url)
+# ab = 'Qf45gF77DZWReVFtmCa2C9MUN2o/NNSyWaG/mmxTtVeyOwUYXYPHiEuVjxFM4qc058Bhho37vxU/bdncTUXwZ99pFmkvSkzySU2c9SvohHJ2aTkhvHDieESEKk-OW/4Ou/Iai/85IssE2d95nHCTAQVnL/1x-cbDOp34VIzCi2ys0WWjh92Aa3YgFhIa'
+url += '&a_bogus=' + ab
+print(len(ab))
+
+response = requests.get(url, cookies=cookies, headers=headers)
+print(response)
+print(response.text)
+params = {
+    'device_platform': 'webapp',
+    'aid': '6383',
+    'channel': 'channel_pc_web',
+    'aweme_id': '7453123014624890164',
+    'cursor': '0',
+    'count': '10',
+    'item_type': '0',
+    'insert_ids': '',
+    'whale_cut_token': '',
+    'cut_version': '1',
+    'rcFT': '',
+    'update_version_code': '170400',
+    'pc_client_type': '1',
+    'pc_libra_divert': 'Windows',
+    'support_h265': '1',
+    'support_dash': '1',
+    'cpu_core_num': '8',
+    'version_code': '170400',
+    'version_name': '17.4.0',
+    'cookie_enabled': 'true',
+    'screen_width': '1707',
+    'screen_height': '1067',
+    'browser_language': 'zh-CN',
+    'browser_platform': 'Win32',
+    'browser_name': 'Chrome',
+    'browser_version': '138.0.0.0',
+    'browser_online': 'true',
+    'engine_name': 'Blink',
+    'engine_version': '138.0.0.0',
+    'os_name': 'Windows',
+    'os_version': '10',
+    'device_memory': '8',
+    'platform': 'PC',
+    'downlink': '10',
+    'effective_type': '4g',
+    'round_trip_time': '50',
+    'webid': '7535409131668489791',
+    'uifid': '1b474bc7e0db9591e645dd8feb8c65aae4845018effd0c2743039a380ee64740f769146ec9de43ae792bdb053966bf0d50e95cfc4071a04d7c01981422867ac6ed39bfd4ed4ef882b3120e03ab7e618d92f11ac41efac397e9178a3d17a5a6faf496a86a05c8d6c43bbc6957c4ac393d315c4a6f6f450bccd303f315cc38ad8192cf74809e540a570fec1d7a9fd8a5ad7ec1e6e3ef61d465997cd47636581de7',
+    'msToken': 'ku154f6WGkewTvCvAoGDVGlQpFdfC3H7Qkp2iooV1PZwByP2MUujbVPAe5sGvC9DpIAFa3IkU-QvaQzFejg0n6GyRAasxVwyPBdqHBtgj9wP8zLLaYaCvzlyzsnJkfxSwGgk_np2VHbuZuyL7rgQ_ckE5aUpFrAR93GkX7eefOvEwFUtW_WOZNc=',
+    'a_bogus': 'mXsVkeyEmNAjedMbmKae9lBUxuj/NTWyk1T2WEATyNYbOhzbXSP-knCgnozP/5QQc8pThHI7Vne/YDVcssUsZHnkFmpvSk4fb05n980o2qqIGzt8gr8heuUFFwstURhiaA5vi1U3/UHHZfOWEpQD/3l7tC9e5RyZMq9ykFTbYIadZMylEZnlPpGkThNPUa26',
+    'verifyFp': 'verify_mdzsmita_z5a6Res1_JrZV_473U_8fCC_G0mDXayFPZKG',
+    'fp': 'verify_mdzsmita_z5a6Res1_JrZV_473U_8fCC_G0mDXayFPZKG',
+}
+

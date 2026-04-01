@@ -1,0 +1,10 @@
+
+
+分析：
+    第一次请求 register-slide 拿到 gt 和 challenge
+    第二次请求 gettype.php 获取到验证码版本信息，使用版本信息和 gt、challenge 生成第一个 W
+    第三次请求 get.php 携带 gt、challenge 和第一个 W，获取 c 和 s
+    第四次请求 ajax.php 携带 gt、challenge 和第二个 W，W 生成的时候 te 值保持和第一个 W 的一致
+    第五次请求 get.php 携带 gt、challenge， 获取到乱序图、滑块图和新的 c、s 还有新的 challenge 值
+    第六次请求 ajax.php 携带 gt、新challenge、第三个 W，te 值和前面一样的一样或者重新生成都可以，passTime 需和轨迹的最后一个数组的Z值一致
+

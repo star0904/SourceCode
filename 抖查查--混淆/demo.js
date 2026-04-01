@@ -1,0 +1,1 @@
+console.log(atob("5b6u5LqO5p2D5Zyw5YyF5LqO5p2D5Zyw"));

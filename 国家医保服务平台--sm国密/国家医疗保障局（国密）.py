@@ -56,6 +56,7 @@ class YiBao(object):
             'X-Tif-Timestamp': str(headersValue['X-Tif-Timestamp']),
             'X-Tingyun': headersValue['X-Tingyun']
         }
+        print(headersValue)
         print(dataValue)
         data = {
             "data": {
